@@ -1,0 +1,21 @@
+extends ../layout
+
+block main-content
+    .container.d-flex.flex-column
+        h2.text-center.fw-bolder.text-primary #{title}
+        if messages.error
+            p.text-danger.text-center.small #{messages.error}
+        .row.text-center 
+        div.col-md-4.offset-md-4
+            form(action="/login/submit" method="post")
+                label.form-label(for="email") Email
+                input.form-control.mb-2(type="email" name="email" id="email" required) 
+                label.form-label(for="password") Password
+                input.form-control.mb-1(type="password" name="password" id="password" required) 
+                p.small.fw-lighter.fst-italic 
+                    | Haven't had an account? Click
+                    a.mx-1.fw-bolder(href="/register") here 
+                    | to register
+                div.d-flex.flex-row.justify-content-around
+                    input.btn.btn-primary(type="submit", value="Submit")
+                    a.btn.btn-primary(href="../") Stay Logout

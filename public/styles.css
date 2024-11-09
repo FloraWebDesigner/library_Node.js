@@ -1,0 +1,91 @@
+body {
+  font-family:'Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.weather-card{
+  background: #fefae0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%; 
+}
+
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+  display: flex;
+}
+
+.dark-brown{
+  color: #463f3a;
+}
+
+.light-pink{
+  background-color: #fff1e6;
+}
+
+.input-group-text.myRounded-start{
+  border-top-left-radius: 50px !important;
+  border-bottom-left-radius: 50px !important;
+}
+
+.form-control.p-2.myRounded-end{
+  border-top-right-radius: 50px !important;
+  border-bottom-right-radius: 50px !important;
+}
+
+a{
+  text-decoration: none !important;
+}
+
+.AI-card{
+  background-color: rgba(255, 255, 255, 0.4);
+  transition: box-shadow 0.3s ease !important;
+}
+.AI-card:hover {
+  box-shadow: 0 0 20px 5px rgba(100, 255, 245, 0.5) !important; 
+}
+
+.admin-card{
+  transition: 0.3s ease !important;
+}
+
+.admin-card:hover {
+  box-shadow: 0 0 5px 2px gray !important; 
+}
+
+.myDesc {
+  max-height: 9em; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+
+span.p-1.myTitle {
+  text-shadow:
+      -1px -1px 0px black,
+      1px -1px 0px black,
+      -1px 1px 0px black,
+      1px 1px 0px black; 
+  letter-spacing:2px;
+}
+
+.tooltip {
+  z-index: 99; 
+}

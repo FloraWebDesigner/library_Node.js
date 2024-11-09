@@ -1,0 +1,16 @@
+extends ../layout 
+
+block main-content 
+    h3.text-center.text-dark.my-4 #{title}
+    div.container
+        form(action="/admin/book/googlebooks/add/submit", method="post") 
+            button.btn.btn-outline-dark.m-auto(type="submit") Add to the system
+            div.d-flex.flex-row.flex-wrap.justify-content-start
+                each b in books
+                    div.d-flex.flex-column          
+                        div.card.rounded-0(style="width: 6rem; height:8.5rem;position: relative;overflow: hidden;").shadow.m-2
+                            a(href=`/bookdetail/${b.id}` data-bs-toggle="tooltip" data-bs-title="Default tooltip")
+                            img.card-img-top.rounded-0(src=b.volumeInfo.imageUrl style="width:6rem; height:8.5rem;object-fit: cover;object-position: center;" alt=b.volumeInfo.title)
+                            p.text-end.bg-dark.p-1.text-white(style="position: absolute; top: 0; right: 0; margin: 0; opacity: 0.7; background-color: rgba(0, 0, 0, 0.5);font-size:10px;") 
+                                | #{b.volumeInfo.publishedDate ? b.volumeInfo.publishedDate.slice(0, 4) : 'unknown'}
+                        input.mb-1(type="checkbox", name="pickGb[]" value=b.id)

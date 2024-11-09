@@ -1,0 +1,35 @@
+extends layout 
+
+block main-content
+    div(style=`background: linear-gradient(rgba(${catColor.r}, ${catColor.g},${catColor.b}, 0.3), rgba(${catColor.r}, ${catColor.g},${catColor.b}, 0.3));min-height: 80vh;margin: 0; padding: 0;`)
+        .container-fluid.row 
+            .col-md-2
+                h3.mt-3 News on #{cat}
+            .col-md-10
+                h4.page-title.text-center.m-3.text-secondary.fw-bold.mb-2 Here's the result for 
+                    span.fs-2.p-1.myTitle(style=`color:rgba(${catColor.r}, ${catColor.g},${catColor.b}, 1);`) #{cat} 
+                div.mx-auto.d-flex.flex-row.align-items-center.justify-content-center.mb-2
+                    input.me-1(type="radio" id="MinimalistView" name="view" value="Minimalist View" checked onclick="changeView()")
+                    label.me-3(for="MinimalistView") Minimalist View
+                    input.me-1(type="radio" id="DetailedView" name="view" value="DetailedView" onclick="changeView()")
+                    label(for="DetailedView") Detailed View                
+                div.flex-row.flex-wrap.minimalist-view.justify-content-start(style="display:flex;")
+                    each b in catBook
+                        div.card.rounded-0(style="width: 9rem; height:11rem;").shadow.m-2.muted
+                            a(href=`/bookdetail/${b.id}` data-bs-toggle="tooltip" data-bs-title=`Title:${b.volumeInfo.title}; Rating:${b.volumeInfo.rating}`)
+                            img.card-img-top.rounded-0(src=b.volumeInfo.imageUrl style="width:9rem; height:11rem;" alt=`Title:${b.volumeInfo.title}`)
+                            p.small.text-end.bg-dark.p-1.text-white(style="position: absolute; top: 0; right: 0; margin: 0; opacity: 0.7; background-color: rgba(0, 0, 0, 0.5);") 
+                                | #{b.volumeInfo.publishedDate ? b.volumeInfo.publishedDate.slice(0, 4) : 'unknown'}
+                div.container.flex-row.flex-wrap.Detailed-view.justify-content-evenly(style="display: none;")
+                    each b in catBook
+                        div.card.rounded-0(style="width: 24rem; height:11rem;").shadow.m-2.p-0
+                            a.row.p-0(href=`/bookdetail/${b.id}` data-bs-toggle="tooltip" data-bs-title=`Rating:${b.volumeInfo.rating}, Story: ${b.volumeInfo.description}` )
+                                div.col-sm-4.m-0.p-0
+                                    img.card-img-top.rounded-0.mt-0.p-0(src=b.volumeInfo.imageUrl style="width:90%; height:11rem;" alt=`Title:${b.volumeInfo.title}`)
+                                div.col-sm-8.p-0
+                                    div.card-body.d-flex.flex-column.justify-content-start.h-100.p-0(style="max-height:11rem;max-width:90%;overflow: hidden; text-overflow: ellipsis;")
+                                        div.card-title.fw-bolder.text-right.text-dark.my-1(style="font-size: 15px;") #{b.volumeInfo.title}
+                                        div.card-subtitle.mb-1.text-body-secondary.fw-bolder(style="font-size: 12px;") #{b.volumeInfo.authors} | 
+                                            span #{b.volumeInfo.publishedDate ? b.volumeInfo.publishedDate : 'unknown'}
+                                        div.card-text.text-body-secondary.short-desc.myDesc(style="font-size: 12px;") #{b.volumeInfo.description}
+

@@ -1,0 +1,14 @@
+extends layout 
+
+block main-content 
+    h3.page-title.text-center.m-3.text-primary.fw-bold.mb-3 Here's the search for #{userSearch} 
+    i.fa-solid.fa-toggle-on
+    div.container.d-flex.flex-row.flex-wrap
+        each b in userBook
+          div.card.rounded-0(style="width: 9rem; height:11rem;").shadow.m-2.muted
+            a(href=`/bookdetail/${b.id}` data-bs-toggle="tooltip" data-bs-title="Default tooltip")
+              img.card-img-top.rounded-0(src=b.volumeInfo.imageUrl style="width:9rem; height:11rem;" alt=b.volumeInfo.title)
+              p.small.text-end.bg-dark.p-1.text-white(style="position: absolute; top: 0; right: 0; margin: 0; opacity: 0.7; background-color: rgba(0, 0, 0, 0.5);") 
+                  | #{b.volumeInfo.publishedDate ? b.volumeInfo.publishedDate.slice(0, 4) : 'unknown'}
+              //- div.card-body.p-1
+              //-     div.card-title.fw-bolder.text-center.m-auto(style="font-size: 1vw;") #{b.volumeInfo.title}

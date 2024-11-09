@@ -1,0 +1,37 @@
+extends ../layout 
+
+block main-content 
+    .container.d-flex.flex-row.justify-content-between.align-items-center.mt-2
+        h1.text-center #{title} 
+        a.btn.btn-primary(href="/admin/user/add") Add User
+    div.container
+        table.table.table-striped.my-3
+            thead
+                tr.table-dark.fs-6.text-center
+                    th.col-md-2 ID
+                    th.col-md-1 Username
+                    th.col-md-1 Role
+                    th.col-md-2 Email
+                    th.col-md-2 Created
+                    th.col-md-3 Operation 
+            tbody  
+                each user in userList
+                    tr.smallfont
+                        td.text-center #{user._id}
+                        td.text-center #{user.username}
+                        td.text-center #{user.role}
+                        td.text-center #{user.email}
+                        //- td #{user.activity} 
+                        //- td #{user.favorite}
+                        td.text-center #{user.createdDateFormatted}
+                        td.text-center
+                            div.d-flex.flex-row.justify-content-center
+                                a.btn.btn-info.btn-sm.me-1(href="#") View
+                                form(action="/admin/user/edit") 
+                                    input(type="hidden", name="userId", value=user._id) 
+                                    button.btn.btn-warning.btn-sm.me-1(type="submit") Edit
+                                form(method="get", action="confirmDeleteUser")
+                                    input(type="hidden", name="userId", value=user._id)
+                                    button.btn.btn-danger.btn-sm(type="button" onclick=`confirmDeleteUser('${user._id}','${user.username}')`) Delete
+
+

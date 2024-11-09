@@ -1,0 +1,29 @@
+extends ../layout 
+
+block main-content 
+    h2.text-center.pt-2 #{title} 
+    if messages.error
+            p.text-danger.text-center.small.p-0.m-0 #{messages.error}
+    div.row
+        form.col-md-6.offset-md-3.p-3.bg-success-subtle.rounded-3(method="post", action="/admin/user/add/submit")
+            div.row.mb-2
+                div.col-sm-3.text-end
+                    label.form-label.me-1.mt-1(for="username") Name: 
+                div.col-sm-9
+                    input.form-control(type="text", id="username", name="username", placeholder="enter your name" required)
+            div.row.mb-2
+                div.col-sm-3.text-end
+                    label.form-label.mt-1.me-1(for="email") Email:
+                div.col-sm-9
+                    input.form-control(type="text", id="email", name="email", placeholder="enter your email address" required)
+            div.row.mb-2
+                div.col-sm-3.text-end
+                    //- Add verification
+                    label.form-label.mt-1.me-1(for="myPassword") Password:
+                div.col-sm-9
+                    input.form-control.mb-1(type="password", id="myPassword", name="password" placeholder="at least 6 character, including numbers and letters" required)
+                    input.me-1(type="checkbox" onclick="myFunction()" id="showPassword") 
+                    label(for="showPassword") Show Password
+            div.row.d-flex.flex-row.justify-content-evenly.align-items-center
+                button.col-sm-5.btn.btn-primary(type="submit") Add User
+                a.col-sm-5.btn.btn-secondary(href="/admin/users") Cancel
