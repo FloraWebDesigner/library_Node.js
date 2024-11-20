@@ -1,13 +1,13 @@
-# Some changes from last time
+# Library CMS Project
 
-## Local modules
-The Trakt API stuff is in the /modules/trakt folder.
+## Main source: Google Book API
+## Others: openlibrary, weather, color, audio, image...
 
 
-## Secured API settings using .env
-1. Use the dotenv module (npm i dotenv) to save values in environment variables.
-2. Place your values in the .env file with the custom environment variables written in all caps equals the value (one per line).
+## Secured settings using .env
+1. mongoDB database.
+2. API keys.
 
 ## To run
-1. Modify the .env file values to ones which reflect your app settings.
+1. Modify the .env file values to ones which reflect app settings.
 
