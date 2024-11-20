@@ -1,14 +1,21 @@
-body {
-  font-family:'Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
-.weather-card{
-  background: #fefae0;
-}
+@import url('https://fonts.googleapis.com/css2?family=Oswald');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-family:"Oswald",serif !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.weather-card {
+  background: #fbf0a6;
 }
 
 main {
@@ -18,74 +25,127 @@ main {
   padding: 0;
 }
 
-html, body {
-  height: 100%; 
-}
-
-
-body {
-  display: flex;
-  flex-direction: column;
-}
-
 .container {
   flex: 1;
   display: flex;
 }
 
-.dark-brown{
-  color: #463f3a;
+.main-search input::placeholder {
+  color: #6c757d;
 }
 
-.light-pink{
-  background-color: #fff1e6;
-}
-
-.input-group-text.myRounded-start{
+.input-group-text.myRounded-start {
   border-top-left-radius: 50px !important;
   border-bottom-left-radius: 50px !important;
 }
 
-.form-control.p-2.myRounded-end{
+.input-group-text.myRounded-start:focus {
+  box-shadow: 0 0 10px 5px rgba(0, 123, 255, 0.5);
+}
+
+.form-control.p-2.myRounded-end {
   border-top-right-radius: 50px !important;
   border-bottom-right-radius: 50px !important;
 }
 
-a{
+.form-control.p-2.myRounded-end:focus {
+  box-shadow: 0 0 10px 5px rgba(0, 123, 255, 0.5);
+}
+
+i.text-secondary.fa-solid.fa-magnifying-glass:hover {
+  color: #f8f9fa !important;
+}
+
+a {
   text-decoration: none !important;
 }
 
-.AI-card{
+
+li.nav-item a.nav-link:hover,
+a.session.my-auto.text-info:hover {
+  text-shadow: 0 0 10px rgba(0, 123, 255, 1), 0 0 20px rgba(0, 123, 255, 0.8),
+    0 0 30px rgba(0, 123, 255, 0.6), 0 0 40px rgba(0, 123, 255, 0.4),
+    0 0 50px rgba(0, 123, 255, 0.2);
+}
+
+.nav-link.active {
+  text-decoration: underline !important;  
+  text-decoration-color: #0dcaf0 !important; 
+  text-decoration-thickness: 2px !important;  
+  text-underline-offset: 4px !important;  
+}
+
+.nav-item a.nav-link {
+  transition: all 0.3s ease;  
+}
+
+.nav-item a.nav-link.active {
+  color: #0dcaf0; 
+}
+
+.AI-card {
   background-color: rgba(255, 255, 255, 0.4);
   transition: box-shadow 0.3s ease !important;
 }
 .AI-card:hover {
-  box-shadow: 0 0 20px 5px rgba(100, 255, 245, 0.5) !important; 
+  box-shadow: 0 0 20px 5px rgba(100, 255, 245, 0.5) !important;
 }
 
-.admin-card{
+.admin-card {
   transition: 0.3s ease !important;
 }
 
 .admin-card:hover {
-  box-shadow: 0 0 5px 2px gray !important; 
+  box-shadow: 0 0 5px 2px gray !important;
 }
 
 .myDesc {
-  max-height: 9em; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
+  max-height: 9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+.short-desc{
+  display: -webkit-box;      
+  -webkit-line-clamp: 2;       
+  -webkit-box-orient: vertical; 
+  overflow: hidden;             
+  text-overflow: ellipsis; 
+  line-clamp: 2;    
+}
+
 
 span.p-1.myTitle {
-  text-shadow:
-      -1px -1px 0px black,
-      1px -1px 0px black,
-      -1px 1px 0px black,
-      1px 1px 0px black; 
-  letter-spacing:2px;
+  text-shadow: -1px -1px 0px black, 1px -1px 0px black, -1px 1px 0px black,
+    1px 1px 0px black;
+  letter-spacing: 2px;
 }
 
-.tooltip {
-  z-index: 99; 
+.icon-down {
+  display: inline-block;
 }
+
+.icon-up {
+  display: none;
+}
+
+[aria-expanded="true"] .icon-down {
+  display: none !important;
+}
+
+[aria-expanded="true"] .icon-up {
+  display: inline-block !important;
+}
+
+#largeView:checked + label i,
+#smallView:checked + label i,
+#thumbnailView:checked + label i,
+#imgView:checked + label i,
+#tabView:checked + label i {
+  color: #0d6efd !important;
+}
+
+.advanced-search input::placeholder {
+  font-size: 12px; 
+}
+

@@ -1,0 +1,23 @@
+extends layout 
+
+block main-content 
+    h4.page-title.text-center.text-primary.fw-bolder.mt-3.mb-2 #{title}
+    .container.mx-auto.alert.bg-secondary-subtle.mb-3.px-4.rounded-0.d-flex.flex-column(role="alert") 
+        p.small.text-secondary.text-center.py-0.my-2 NOTE: This feature is implemented by AI and not perfect yet. In the future, it will be saved as a bookmark into your profile and show the progress of your book reading. 
+        p.small.text-secondary.text-center.py-0.mb-2 In case you like it, you can right click to save the image. Feel free to play.
+    .container-fluid.d-flex.flex-column.mb-3(style="min-height:70vh;")
+        .col-md-6.offset-md-3.mb-2.d-flex.flex-row.justify-content-evenly.align-items-center.mb-2
+            a.btn.btn-outline-dark(href="/tool") Back
+            button.btn.btn-outline-dark(onclick="showBookMarkforUser()" type="button" id="showBookMarkforUserBtn" href="/tool") I want to bookmark my favorites
+            //- form(method="get", action="/bookmarkforbook")
+            a.bookMarkOneBook.btn.btn-outline-dark(data-bs-toggle="collapse" href='#collapse-booklist' role="button" aria-expanded="false" aria-controls='#collapse-booklist') I want to bookmark a book
+        .div.mx-auto(id="bookMarkforUser" style="display:none;")
+            img(src=myImg alt="this is a bookmark generated according to username and the person's favorite books")
+        #collapse-booklist.collapse
+            .container.mt-3
+                .d-flex.flex-row.flex-wrap.justify-content-center.align-items-center
+                    each f in user.favorite
+                        .favorite-book.d-flex.flex-column.me-2.align-items-center
+                            img.mb-2(src=f.image alt="Favorite Book Thumbnail" style="width:6rem; height:8.5rem;" data-bs-toggle="tooltip" data-bs-title=`Title: ${f.title}`)
+                            button.btn.btn-sm.btn-outline-dark(type="button" onclick=`createBookmark('${f.bookID}')`) Create a Bookmark
+            .div.mx-auto.d-flex.justify-content-center(id="bookMarkWrapper")

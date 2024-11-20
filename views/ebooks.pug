@@ -1,0 +1,39 @@
+extends layout 
+
+block main-content
+    .container-fluid.row(style='margin: 0; padding: 0;')        
+        h2.text-center.text-dark.fw-bolder.mt-4 #{title}
+        .container.d-flex.flex-row.justify-content-between.align-items-center
+            a.btn.btn-sm.btn-outline-dark.ms-4(href="/tool")
+                i.fa-solid.fa-arrow-left.me-2
+                | Back
+            div.views.mx-auto.d-flex.flex-row.align-items-center.justify-content-center.mb-2                 
+                //- input#largeView(type="radio" name="view" value="large-view" checked hidden onclick="changePreviewView()")
+                //- label(for="largeView")
+                //-     i.text-secondary.fs-3.fas.fa-th-large
+                //- input#thumbnailView(type="radio" name="view" value="thumbnail-view" hidden onclick="changePreviewView()")
+                //- label(for="thumbnailView")
+                //-     i.text-secondary.fs-3.fas.fa-th-list
+            a.btn.btn-sm.btn-outline-dark.me-4(href="/search/submit") Advanced Search
+                i.fa-solid.fa-magnifying-glass.ms-2                           
+        div.flex-row.flex-wrap.large-view.justify-content-center.mb-4(style="display:flex;")
+            each b in books
+                div.card.rounded-0(style="width: 8rem; height:11rem;").shadow.mx-2.muted.my-4
+                    a(href=`/bookdetail/${b.id}` data-bs-toggle="tooltip" data-bs-title=`Title:${b.volumeInfo.title}; Authors:${b.volumeInfo.authors}; `)
+                        img.card-img-top.rounded-0(src=b.volumeInfo.imageUrl style="width:8rem; height:11rem;" alt=`Title:${b.volumeInfo.title}`)
+                        p.small.text-end.bg-dark.p-1.text-white(style="position: absolute; top: 0; right: 0; margin: 0; opacity: 0.7; background-color: rgba(0, 0, 0, 0.5);") 
+                            | #{b.volumeInfo.publishedDate ? b.volumeInfo.publishedDate.slice(0, 4) : 'unknown'}
+                        if !(userSession && b.isUserFavorite)
+                            form(action="/ebook/favorite/add/submit",method="post") 
+                                input(type="hidden", name="favorite_id", value=b.id)
+                                button.btn.btn-danger.py-1.px-2.btn-sm.rounded-0(type="submit" data-bs-toggle="tooltip" data-bs-title="Save to your bookshelf" style="position: absolute; top: 0; left: 0; z-index: 1;")
+                                    i.fa-regular.fa-heart
+                        if (userSession && b.isUserFavorite)
+                            form(action="/ebook/favorite/delete/submit", method="get")
+                                input(type="hidden", name="favorite_id", value=b.id)
+                                button.btn.btn-danger.py-1.px-2.btn-sm.rounded-0(type="submit" data-bs-toggle="tooltip" data-bs-title="remove from your bookshelf" style="position: absolute; top: 0; left: 0; z-index: 1;")
+                                    i.fa-solid.fa-heart
+                        if(b.accessInfo.embeddable)
+                            a.btn.btn-primary.mt-1(href=`ebook/${b.id}`) Preview
+                        else 
+                            a.btn.btn-secondary.mt-1(href=b.volumeInfo.infoLink data-bs-toggle="tooltip" data-bs-title="you will go to the Google Book to see the details") No Preview

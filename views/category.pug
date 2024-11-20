@@ -1,7 +1,7 @@
 extends layout 
 
 block main-content 
-  h4.page-title.text-center.text-dark.fw-bolder #{title}
+  h4.page-title.text-center.text-dark.fw-bolder.mt-2 #{title}
   div.col-md-4.offset-md-4.d.d-flex.flex-row.justify-content-evenly.align-items-center.mt-1.mb-2
     div Too much information? 
     i.fa-regular.fa-hand-point-right
@@ -12,13 +12,14 @@ block main-content
       div.w-100(style=`background:${color};`)
         a.text-dark.fw-bolder.text-uppercase.fs-3.p-1.d-flex.justify-content-center.align-items-center(data-bs-toggle="collapse" href=`#collapse-${category}` role="button" aria-expanded="false" aria-controls=`collapse-${category}` style="text-decoration:none;")
           | #{category}
-          i.fa-solid.fa-chevron-down.ms-3.fs-5.align-self-center
-      div.collapse(id=`collapse-${category}`)
-        div.d-flex.flex-row.flex-wrap
+          i.fa-solid.fa-chevron-down.ms-3.fs-5.align-self-center.icon-down
+          i.fa-solid.fa-chevron-up.ms-3.fs-5.align-self-center.icon-up(style="display:none;")
+      div.collapse(id=`collapse-${category}` data-bs-parent=".w-100")
+        div.d-flex.flex-row.flex-wrap.justify-content-center
           each b in books
-            div.card.rounded-0.shadow.m-1(style="width: 9rem; height: 11rem;")
-              a(href=`/bookdetail/${b.id}` data-bs-toggle="tooltip" title="View Details")
-                img.card-img-top.rounded-0(src=b.volumeInfo.imageUrl style="width:9rem; height:11rem;" alt=b.volumeInfo.title)
+            div.card.rounded-0.shadow.m-1(style="width: 8rem; height: 11rem;")
+              a(href=`/bookdetail/${b.id}` data-bs-toggle="tooltip" title=`Title:${b.volumeInfo.title} Author:${b.volumeInfo.authors}`)
+                img.card-img-top.rounded-0(src=b.volumeInfo.imageUrl style="width:8rem; height:11rem;" alt=b.volumeInfo.title)
               p.small.text-end.bg-dark.p-1.text-white(style="position: absolute; top: 0; right: 0; margin: 0; opacity: 0.7; background-color: rgba(0, 0, 0, 0.5);") #{b.volumeInfo.publishedDate ? b.volumeInfo.publishedDate.slice(0, 4) : 'Unknown'}
         div.text-center.my-2
           form(method="GET" action=`/${category}/books`)
@@ -26,5 +27,5 @@ block main-content
             input(type="hidden" name="category-color" value=color)
             button.btn.btn-outline-dark.me-2(type="submit" name="listBooksByCategory") Find More
               i.fa-solid.fa-arrow-up-right-from-square.ms-2
-            a.btn.btn-outline-dark(href="/search") Go Search
+            a.btn.btn-outline-dark(href="/search/submit") Go Search
               i.fa-solid.fa-magnifying-glass.ms-2

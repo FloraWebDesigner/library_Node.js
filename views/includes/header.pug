@@ -1,36 +1,36 @@
-nav.navbar.navbar-expand-lg.bg-body-primary
-  //-bg-body-tertiary
-  .container-fluid
+nav.navbar.bg-dark.border-body.navbar-expand-lg(data-bs-theme="dark")
+  //- bg-body-tertiary bg-dark.border-bottom.border-body
+  .container-fluid.bg-dark
     //- a.navbar-brand(href='#') Flora's Reading Space
-    img.me-3(src="/img/logo.svg")
+    img.me-3(src="/img/logo-white.svg")
     button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
       span.navbar-toggler-icon
     #navbarSupportedContent.collapse.navbar-collapse
-      ul.navbar-nav.me-auto.mb-2.mb-lg-0
+      ul.navbar-nav.me-auto.mb-2.mb-lg-0.text-info
         li.nav-item
-          a.nav-link.active(aria-current='page' href='/') Home
-        //- li.nav-item
-        //-   a.nav-link(href='/new_arrival') New
-        li.nav-item.dropdown
-          a.nav-link.dropdown-toggle(href='/category' role='button' data-bs-toggle='dropdown' aria-expanded='false')
-            | Book
-            //- ["Fiction","History","Science","Technology","Art","Business","Economics","Philosophy","Psychology","Travel","Cooking","Health","Sports"];
-          ul.dropdown-menu
-            li
-              a.dropdown-item(href='/new_arrival') New Arrival
-            li
-              a.dropdown-item(href='/category') Category 
-          //- li.nav-item
-          //-   a.nav-link(href='/category')  Category             
-        form.d-flex.ms-3(role='search')
-          input.form-control.me-2(type='search' placeholder='Search' aria-label='Search')
-          button.btn.btn-outline-success(type='submit') Search
+          a.nav-link.text-info(aria-current='page' href='/' id="nav-home") Home
+        li.nav-item
+          a.nav-link.text-info(aria-current='page' href='/category' id="nav-cat") Category
+        li.nav-item
+          a.nav-link.text-info(aria-current='page' href='/newarrival' id="nav-new") New Arrival
+        if userSession 
+          li.nav-item
+            a.nav-link.text-info(href='/tool' id="nav-tool") Tools
+          li.nav-item
+            a.nav-link.text-info(href=`/profile/${userSession.userId}` id="nav-mylibrary") My Library
+        if (userSession && userSession.role==='admin')
+          li.nav-item
+            a.nav-link.text-info(href='/admin/library' id="nav-admin") Management             
+        if !quote
+          form.d-flex.ms-3(role='search' method='get' action='/searches')
+            input.form-control.me-2(type='search' name="search" id="search" placeholder='Search' aria-label='Search')
+            button.btn.btn-sm.btn-outline-info(type='submit') Search
       .text-end.d-flex.flex-row.align-items-center.align-middle 
-        i.fs-2.mx-2.text-secondary.fa-duotone.fa-solid.fa-circle-user
-      if userSession
-          p.my-auto.text-secondary Welcome #{userSession.username}
-          form(action="/logout" method="get")
-            button.small.btn.btn-outline-secondary(type="submit") LogOut
+      if (userSession) 
+        i.fs-2.mx-3.text-info.fa-duotone.fa-solid.fa-circle-user
+        p.my-auto.text-info.me-3 Welcome #{userSession.username}
+        form(action="/logout" method="get")
+          button.btn.btn-outline-info(type="submit") LogOut
       else 
-          a.my-auto.text-secondary(href='/login') Login
-
+        i.fs-2.mx-3.text-secondary.fa-duotone.fa-solid.fa-circle-user
+        a.session.my-auto.text-info.me-2(href='/login') Login

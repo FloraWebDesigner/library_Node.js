@@ -1,7 +1,7 @@
 extends ../layout
 
 block main-content
-    .container.d-flex.flex-column
+    .container.d-flex.flex-column.mt-5.mb-3.justify-content-center(style="min-height:70vh;")
         h2.text-center.fw-bolder.text-primary #{title}
         if messages.error
             p.text-danger.text-center.small #{messages.error}

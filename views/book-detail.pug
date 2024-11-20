@@ -1,5 +1,109 @@
 extends layout 
 
 block main-content 
-    h3.page-title.text-center.m-3.text-primary.fw-bold.mb-3 #{book.volumeInfo.title} 
-    
+    .container.d-flex.flex-column.alert.bg-secondary-subtle.my-2.py-1.px-4.rounded-0(role="alert") 
+        h5.smaller.text-center.mt-2 Notice About Third-Party Links 
+        p.small This website contains links to external sites. Please verify the information on your own. We are not responsible for the accuracy or validity of these external links.
+        div.small Link Descriptions:
+        ul 
+            li.small Purchase Link: This will take you to Amazon's official purchase page.
+            li.small Public Library Resource: This will direct you to WorldCat, where you can find libraries near you that have the book based on your IP address.
+    .container.d-flex.flex-column
+        h3.text-center.page-title.mt-2.text-dark.fw-bold.mb-2 #{book.volumeInfo.title}
+    .container.row 
+        .col-md-3.text-end 
+            img.shadow(src=book.volumeInfo.imageLinks.thumbnail) 
+        .col-md-9
+            .row 
+                .col-sm-8 
+                    h5.text-dark Author: #{book.volumeInfo.authors.join(', ')}
+                        a.fs-6.ms-2.text-primary(href=`https://en.wikipedia.org/wiki/${book.volumeInfo.authors[0]}&key=${process.env.GOOGLE_BOOK_API_KEY}` data-bs-toggle="tooltip" data-bs-title="More about the author info")
+                            i.text-primary.fa-solid.fa-arrow-up-right-from-square
+                    //- .d-flex.flex-row.justify-content-between.my-0.align-items-center
+                    p.p-0.my-1 Publisher: #{book.volumeInfo.publisher} | #{book.volumeInfo.publishedDate} 
+                    p.p-0.mb-1 Rating:
+                        if book.volumeInfo.rating
+                            each star in [...Array(Math.floor(book.volumeInfo.rating)).keys()]
+                                i.ms-2.fa-solid.fa-star.text-warning(data-bs-toggle="tooltip" data-bs-title=book.volumeInfo.rating)
+                            each emptyStar in [...Array(5 - Math.floor(book.volumeInfo.rating)).keys()]
+                                i.ms-2.fa-regular.fa-star.text-warning
+                        else
+                            each grayStar in [...Array(5).keys()]
+                                i.ms-2.fa-solid.fa-star.text-secondary(data-bs-toggle="tooltip" data-bs-title="No Rating")
+                    p.p-0.mb-1 Language: #{book.volumeInfo.language || 'Unknown'}
+                .col-sm-4 
+                    .d-flex.flex-column.align-items-center.mb-2(style="row-gap:0.4rem;") 
+                        if book.volumeInfo.isbn13
+                            a.btn.btn-warning.w-100.btn-sm(href=`https://www.amazon.ca/s?k=${book.volumeInfo.isbn13}&i=stripbooks` data-bs-toggle="tooltip" data-bs-title="Go to Amazon book store") Buy the book
+                            a.btn.btn-info.w-100.btn-sm(href=`https://www.worldcat.org/search?q=isbn:${book.volumeInfo.isbn13}` data-bs-toggle="tooltip" data-bs-title="find libraries near you that have the book") Get Library Resources
+                        if !(userSession && isFavorite)
+                            form(action="/bookdetail/favorite/add/submit", method="post").w-100 
+                                input(type="hidden", name="favorite_id", value=book.id)
+                                button.btn.btn-danger.w-100.btn-sm(type="submit" data-bs-toggle="tooltip" data-bs-title="Save to your bookshelf") My Favorite
+                                    i.ms-2.fa-regular.fa-heart
+                        if (userSession && isFavorite)
+                            form(action="/bookdetail/favorite/delete/submit", method="get").w-100
+                                input(type="hidden", name="favorite_id", value=book.id)
+                                button.btn.btn-danger.w-100.btn-sm(type="submit" data-bs-toggle="tooltip" data-bs-title="Save to your bookshelf") My Favorite
+                                    i.ms-2.fa-solid.fa-heart
+            p.mt-3.bg-warning-subtle.rounded-3.p-3 #{book.volumeInfo.description}
+                if userSession
+                    i.text-secondary.ms-1.fa-solid.fa-volume-high.getVoice(style="font-size:1rem;" data-bs-toggle="tooltip" data-bs-title="Play the audio")
+            h5.mt-3.text-dark Bibliography
+                a.fs-6(href=book.volumeInfo.infoLink data-bs-toggle="tooltip" data-bs-title="Go to Google Books")
+                    i.fa-solid.text-primary.fa-arrow-up-right-from-square.ms-2
+            p.p-0.my-1 Page Counts: #{book.volumeInfo.pageCount}
+            .d-flex.flex-row.justify-content-start
+                p.p-0.my-1 Reference:
+                if book.volumeInfo.isbn13
+                    div.d-flex.align-items-center.border.border-dark.py-0.px-2.bg-secondary.text-white.ms-2.me-1(style="font-size:11px;") 
+                        | ISBN13:
+                        span(id="isbn13") #{book.volumeInfo.isbn13}
+                    if userSession
+                        i.fa-regular.fa-copy.mt-2.me-2(onclick="copyToClipboard('isbn13')")
+                if book.volumeInfo.isbn10
+                    div.d-flex.align-items-center.border.border-dark.py-0.px-2.bg-secondary.text-white.ms-2.me-1(style="font-size:11px;") 
+                        | ISBN10:
+                        span(id="isbn13") #{book.volumeInfo.isbn10}
+                    if userSession
+                        i.fa-regular.fa-copy.mt-2.me-2(onclick="copyToClipboard('isbn13')")
+            p.p-0.my-1 Tags:
+                if book.volumeInfo.categories && book.volumeInfo.categories.length > 0 
+                    div.d-flex.flex-wrap.mb-2(style="gap: 0.5rem;")
+                        each category in book.volumeInfo.categories
+                            span.badge.bg-secondary-subtle.text-dark.d-inline= category   
+            h5.text-dark.mt-5.mb-3 Other books by this author
+                a.fs-6(href=`/books?search=inauthor:${book.volumeInfo.authors[0]}&maxResults=40` data-bs-toggle="tooltip" data-bs-title="Find more")
+                    i.fa-solid.text-primary.fa-arrow-up-right-from-square.ms-2
+            div.container-fluid.d-flex.flex-row.flex-wrap.mb-3
+                each b in authorBooks
+                    div.card.rounded-0(style="width: 6rem; height:8.5rem;").shadow.m-2.muted.mb-3
+                        a(href=`/bookdetail/${b.id}` data-bs-toggle="tooltip" data-bs-title=`Title:${b.volumeInfo.title}; Rating:${b.volumeInfo.rating}`)
+                            img.card-img-top.rounded-0.shadow(src=b.volumeInfo.imageUrl style="width: 6rem; height:8.5rem;" alt=b.volumeInfo.title)
+                            p.small.text-end.bg-dark.p-1.text-white(style="position: absolute; top: 0; right: 0; margin: 0; opacity: 0.7; background-color: rgba(0, 0, 0, 0.5);") 
+                                | #{b.volumeInfo.publishedDate ? b.volumeInfo.publishedDate.slice(0, 4) : 'unknown'}            
+
+block scripts 
+    link(rel="stylesheet", type="text/css", href="/styles.css")
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous")
+    link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous")
+    script(async defer src="/script.js")
+    script(src="https://www.gstatic.com/books/jsapi.js")
+    script(src="https://code.responsivevoice.org/responsivevoice.js?key=k3uoB18K")
+    script.
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("ResponsiveVoice script loaded and ready.");
+            var bookDescription = !{JSON.stringify(book.volumeInfo.description)};
+            var voiceButton = document.querySelector('.getVoice');
+            voiceButton.onclick = function() {
+                console.log("Button clicked!");
+                console.log("Book Description:", bookDescription);
+                if (!responsiveVoice.isPlaying()) {
+                    responsiveVoice.speak(bookDescription);
+                } else {
+                    console.log("Speech is already playing, please wait.");
+                }
+            };
+        });
+        

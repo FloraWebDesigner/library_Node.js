@@ -1,0 +1,39 @@
+extends ../layout 
+
+block main-content 
+    .container-fluid.bg-secondary-subtle
+        .container.d-flex.flex-column
+            .row(style="min-height: 20vh; overflow: hidden; background: url('https://picsum.photos/1500/150'); background-size: cover; background-position: center;")
+            .row.bg-white.d-flex.flex-row.justify-content-between.align-items-end
+                .d-flex.flex-column.align-items-start
+                    .col-md-1.offset-md-1.rounded-circle.bg-dark.border.border-3.border-white.d-flex.justify-content-center.align-items-center.border.border-secondary.border-2(style="width: 70px; height: 70px; border-radius: 50%; overflow: hidden; margin-top: -35px;")
+                        if (userSession)
+                            span.text-uppercase.text-light.fs-2.fw-bold #{user.username ? user.username.slice(0, 1) : 'Unknown'}
+                .col-md-11.offset-md-1.d-flex.justify-content-between.align-items-end.mb-3
+                    .text-dark.text-start
+                        .fs-6.m-0.ps-1 #{user.username}
+                        .small.ps-1 #{user.email} | 
+                            span.ms-1 This is Day #{days} that we have met.
+                    .weather-card.d-flex.flex-row.align-items-center(style="margin-top: -1.5rem;")
+                        img(src=flag style="width:4rem")
+                        .d-flex.flex-column
+                            .d-flex.flex-row.align-items-center.pt-2     
+                                div.fs-6 #{temp}°C
+                                img(src=`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png` style="width:2em;")
+                            .d-flex.flex-row.justify-content-center 
+                                p.p-0(style="font-size:10px;") #{date}
+            .row.mt-2.d-flex.flex-row.justify-content-center.align-items-start.p-0
+                .col-6.p-0
+                    .bg-white.my-2.me-2.p-3(style="min-height: 30vh;")
+                        h6.text-center My Favorite
+                        .d-flex.flex-row.flex-wrap.justify-content-center.align-items-center
+                            each f in user.favorite
+                                a(href=`/bookdetail/${f.link}` data-bs-toggle="tooltip" data-bs-title=`Title:${f.title};`)
+                                    img.mb-2.me-2(src=f.image alt="Favorite Book Thumbnail" style="width:6rem; height:8.5rem;")
+                .col-6.p-0
+                    .bg-white.mt-2.ms-1.p-3(style="min-height: 30vh;")
+                        h6.text-center My Borrowing Records
+                        p Will be coming soon
+    //- weather card 
+    //- favorate list 
+

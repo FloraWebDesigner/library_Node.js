@@ -1,0 +1,25 @@
+extends ../layout 
+
+block main-content 
+    h2.text-center.mt-4 #{title} - #{book.volumeInfo.title}
+    if messages.error
+            p.text-danger.text-center.p-0.m-0.small #{messages.error}
+    div.row.mb-5
+        form.col-md-6.offset-md-3.p-3.bg-success-subtle.rounded-3(method="post", action="/admin/book/edit/submit")
+            input(type="hidden", name="bookId", value=editBook._id)
+            .row
+                div.col-sm-6.text-end
+                    img(src=book.volumeInfo.imageUrl style="width:9rem; height:11rem;" alt=book.volumeInfo.title)
+                div.col-sm-5
+                    div.row.mb-2
+                        label.form-label.mb-1(for="stock") Stock:
+                        input.form-control(type="number", id="stock", name="stock", value=editBook.stock required)
+                    //- To update Activity schema
+                    //- div.row.mb-2
+                    //-     label.form-label.mb-1(for="status") Status:
+                    //-     select(name="status" id="status")
+                    //-         option(value="borrowed", selected=editBook.status === 'borrowed'|| !editBook.status) Borrowed
+                    //-         option(value="returned", selected=editBook.status === 'returned') Returned
+                    div.row.d-flex.flex-row.justify-content-evenly.align-items-center
+                        button.col-sm-5.btn.btn-primary(type="submit") Update
+                        a.col-sm-5.btn.btn-secondary(href="/admin/booklist") Cancel

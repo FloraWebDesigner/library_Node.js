@@ -1,0 +1,15 @@
+extends layout 
+
+block main-content 
+    h4.page-title.text-center.text-primary.fw-bolder.mt-3.mb-2 #{title}
+        span.text-dark
+            |  - Input Your Text 
+    form.col-md-6.offset-md-3.mb-2(method="post", action="/text/submit" style="height:70vh;") 
+        div.d-flex.flex-row.justify-content-between
+            a.w-25.btn.btn-outline-dark.my-2(href="/tool") Back
+            a.w-25.btn.btn-outline-dark.my-2(href=`/profile`) Go to myLibrary 
+        //- div.row.text-start
+        //-     label.form-label.mt-1(for="text") Copy your books in text format: 
+        div.row
+            textarea.form-control(name="text" id="text" placeholder="Please enter your text here" required style="height:10rem;")
+        button.w-100.btn.btn-primary.my-2(type="submit") Get Audio

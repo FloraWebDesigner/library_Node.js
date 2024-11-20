@@ -1,0 +1,82 @@
+extends layout 
+
+block main-content 
+    h4.page-title.text-center.text-dark.fw-bolder.mt-5 #{title}
+    .container.mx-auto.alert.bg-secondary-subtle.mb-3.px-4.rounded-0.d-flex.flex-column(role="alert") 
+        p.small.text-secondary.text-center NOTE: Please refer to 
+            a(href="https://developers.google.com/books/docs/overview") Google Book document
+            | for this advanced search feature. 
+        p.small.text-secondary.text-center Due to the huge data and complicated structure of books, it is recommended to use 2-3 filters at most. Please note that the search results may be inaccurate depending on the update time and the historical data structure deviation of google book. Only the first 40 search results are displayed. 
+    div.container(style="min-height:65vh;")
+        form.advanced-search.col-md-10.offset-md-1.p-2.mt-1(method="get", action="/advancedsearch")
+            div.row.mb-2
+                .col-md-6
+                    .row
+                        div.col-sm-3
+                            label.form-label(for="author") Author:
+                        div.col-sm-9 
+                            input.form-control(type="text", id="author", name="author", placeholder='e.g. Hamilton Mabie or "Hamilton Wright Mabie"')
+                .col-md-6
+                    .row
+                        div.col-sm-3
+                            label.form-label(for="title") Book Title:
+                        div.col-sm-9 
+                            input.form-control(type="text", id="title", name="title", placeholder="e.g. Books and Culture")
+            div.row.mb-2
+                .col-md-6
+                    .row
+                        div.col-sm-3
+                            label.form-label(for="category") Category:
+                        div.col-sm-9 
+                            input.form-control(type="text", id="category", name="category", placeholder='e.g. Medieval History or "Medieval History"')
+                .col-md-6
+                    .row
+                        div.col-sm-3
+                            label.form-label(for="isbn") ISBN:
+                        div.col-sm-9 
+                            input.form-control(type="text", id="isbn", name="isbn", placeholder="e.g. 0060930314")
+            div.row
+                .col-md-6
+                    .row
+                        div.col-sm-3
+                            label.form-label(for="publisher") Publisher:
+                        div.col-sm-9 
+                            input.form-control(type="text", id="publisher", name="publisher", placeholder="e.g. O'Reilly")
+                .col-md-6
+                    div.d-flex.flex-row.justify-content-start
+                        label.mt-2.form-label(for="download").my-0.me-4 Available to download?
+                        .d-flex.mt-2.flex-row.justify-content-start.align-items-center
+                            input.me-1(type="checkbox" name="download" value="download" id="download" data-bs-toggle="tooltip" data-bs-title="Please noet that 'download' helps narrow down your search to books that potentially offer EPUB downloads. However, it doesn't guarantee that an EPUB download is currently available for every book in the results.")
+                            | yes            
+            div.row.my-2
+                .col-md-6.d-flex.flex-row.justify-content-start.align-items-center
+                    label.form-label(for="ebook").my-0.me-4 Only eBook?
+                    .d-flex.flex-row.justify-content-start.align-items-center
+                        input.me-1(type="checkbox" name="ebook" value="ebook" id="ebook" onchange="toggleMoreOption()")
+                        | yes
+                .col-md-6
+                    div.d-flex.flex-row.justify-content-between
+                        label.form-label(for="sort") Sort By
+                        div.col-sm-9.d-flex.flex-row.justify-content-start
+                                label.me-3
+                                    input.me-1(type="radio" name="sort" value="relevance" checked)
+                                    | Relevance
+                                label
+                                    input.me-1(type="radio" name="sort" value="newest")
+                                    | Newest
+            div.row#eBookOption(style="display: none;") 
+                div.col-md-12.small.mb-2
+                    div.d-flex.flex-row.justify-content-start.align-items.center
+                        label.form-label.me-2(for="ebook-option") Select your ebook
+                        label.me-2
+                            input(type="radio" name="ebook-option" value="free-ebooks")
+                            | Free eBooks
+                        label.me-2
+                            input(type="radio" name="ebook-option" value="paid-ebooks")
+                            | Paid eBooks
+                        label
+                            input(type="radio" name="ebook-option" value="all-ebooks")
+                            | All eBooks
+            div.row.d-flex.flex-row.justify-content-evenly.align-items-center
+                    button.col-sm-5.btn.btn-primary(type="submit") Search
+                    a.col-sm-5.btn.btn-secondary(href="/") Cancel

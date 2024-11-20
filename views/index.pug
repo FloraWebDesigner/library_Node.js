@@ -1,33 +1,17 @@
 extends layout 
 
 block main-content 
-    div(style=`background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${homeBg}) no-repeat center center; background-size: cover; min-height: 80vh;margin: 0; padding: 0;`)
-        //- .row 
-        //-     .col-md-2.offset-md-10.rounded-2.p-2
-        //-         .flex.d-flex.flex-row.align-items-center.weather-card 
-        //-             img(src=flag style="width:4rem")
-        //-             .flex.d-flex.flex-column 
-        //-                 .flex.d-flex.flex-row.align-items-center.pt-2     
-        //-                     div.fs-6 #{temp}°C
-        //-                     img(src=`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png` style="width:2em;")
-        //-                 .flex.d-flex.flex-row.justify-content-center 
-        //-                     p.p-0(style="font-size:10px;") #{date}           
+    div(style=`background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${homeBg}) no-repeat center center; background-size: cover; min-height: 80vh;margin: 0; padding: 0;`)    
         .row.mt-5
-            .col.col-md-6.offset-md-3 
-                .d-flex.flex-row
-                    i.fa-solid.fa-quote-left.text-primary.fs-1.text-start.m-0
-                    h1.page-title.text-center.fw-bold.text-white
-                        | Once you learn to read, you will be forever 
-                        span.text-danger 
-                            | free
+            .col.col-md-8.offset-md-2.d-flex.flex-column.justify-content-center
+                .d-flex.flex-row.justify-content-center
+                    i.fa-solid.fa-quote-left.text-primary.fs-1.text-start.me-2
+                    h1.page-title.text-center.fw-bold.text-light.fs-2 #{quote.q}
                     i.fa-solid.fa-quote-right.text-primary.fs-1.text-end.mt-5
-                p.text-end.text-light.mb-4 
-                    |- Frederick Douglass
-                form.d-flex(role='search' method="get" action="/books")
-                    .input-group.border.border-info.rounded-pill
-                        span.input-group-text.myRounded-start(id="basic-addon1")
-                            i.fa-solid.fa-magnifying-glass
-                        input.form-control.p-2.myRounded-end(type='search' placeholder='Search by book title, author, or keyword' aria-label='Search' aria-describedby="basic-addon1" id="search" name="search")
-                        //- button.btn.btn-outline-success(type='submit') Search
-
-//-  search bar, category tags audio input
+                p.text-end.text-danger.mb-4 
+                    |- #{quote.a}
+                form.d-flex.main-search(role='search' method="get" action="/searches")
+                    .input-group.border.border-2.border-info.rounded-pill.shadow
+                        button.input-group-text.myRounded-start.border.border-info(id="basic-addon1" style="background:rgba(0,0,0,0.4);" type="submit")
+                            i.text-secondary.fa-solid.fa-magnifying-glass
+                        input.form-control.p-2.myRounded-end.text-light.border.border-info(style="background:rgba(0,0,0,0.4);" type='search' placeholder='Search by book title, author, or keyword' aria-label='Search' aria-describedby="basic-addon1" id="search" name="search")
