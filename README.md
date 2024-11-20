@@ -16,14 +16,6 @@ Other APIs: news, weather, color, audio, image, quote...
 1. mongoCluster database.
 2. API keys.
 
-## Account to use：
-1. user login:
-email: jane@123.com
-password: jane.123
-
-2. admin login: 
-email: flora@123.com
-password: flora.123
 
 NOTE: 
 1. If it touches the daily limits, free to generate your own Google Book API to place mine on .env file
